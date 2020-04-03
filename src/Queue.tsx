@@ -1,6 +1,7 @@
 import { RouteComponentProps } from "@reach/router";
 import React from "react";
 import Avatar from "react-avatar";
+import { FaRegTrashAlt } from "react-icons/fa";
 import {
   joinQueue,
   leaveQueue,
@@ -9,6 +10,7 @@ import {
   useQueue
 } from "./firebase";
 import { IMember } from "./models";
+import styles from "./Queue.module.css";
 
 interface Props extends RouteComponentProps {
   queueId?: string;
@@ -34,16 +36,24 @@ export const Queue: React.FC<Props> = ({ queueId }) => {
 
   return (
     <div>
-      <div onClick={onJoinQueue}>{queue?.name}</div>
-      <span>
-        {members.map(member => (
+      <h1 className={styles.headline}>{queue?.name}</h1>
+      {members.map(member => (
+        <div className={styles.member}>
           <Avatar
+            size="40"
             onClick={onLeaveQueue(member)}
             name={member.name}
             src={member.avatar}
+            round
+            className={styles.avatar}
           />
-        ))}
-      </span>
+          <span className={styles.name}>{member.name}</span>
+          <FaRegTrashAlt onClick={onJoinQueue} className={styles.kick} />
+        </div>
+      ))}
+      <div>
+        <button onClick={onJoinQueue}>Join Queue</button>
+      </div>
     </div>
   );
 };

@@ -1,0 +1,27 @@
+.headline {
+  /* margin: 20px 0; */
+}
+.member {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.avatar {
+  margin-right: 10px;
+}
+
+.name {
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+.kick {
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.kick:hover {
+  opacity: 1;
+}

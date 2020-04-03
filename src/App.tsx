@@ -1,7 +1,7 @@
 import { Router } from "@reach/router";
 import React from "react";
 import { GoogleLoginButton } from "react-social-login-buttons";
-import "./App.css";
+import styles from "./App.module.css";
 import { login, useAuth } from "./firebase";
 import { Home } from "./Home";
 import { Queue } from "./Queue";
@@ -11,15 +11,16 @@ function App() {
 
   if (!user) {
     return (
-      <div>
-        <GoogleLoginButton onClick={login} />
+      <div className={styles.root}>
+        <div>
+          <GoogleLoginButton onClick={login} />
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="App">
-      <h1>Queues</h1>
+    <div className={styles.root}>
       <Router>
         <Home path="/" />
         <Queue path={`/queues/:queueId`} />

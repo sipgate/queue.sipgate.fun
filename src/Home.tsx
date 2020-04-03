@@ -2,6 +2,7 @@ import { Link, RouteComponentProps } from "@reach/router";
 import React, { ChangeEvent, useState } from "react";
 import { GoogleLoginButton } from "react-social-login-buttons";
 import { createQueue, login, useAuth, useQueues } from "./firebase";
+import styles from "./Home.module.css";
 
 export const Home: React.FC<RouteComponentProps> = () => {
   const user = useAuth();
@@ -29,9 +30,10 @@ export const Home: React.FC<RouteComponentProps> = () => {
 
   return (
     <div>
+      <h1>Queues</h1>
       {queues.map(queue => (
         <Link to={`/queues/${queue.id}`}>
-          <div>{queue.name}</div>
+          <div className={styles.name}>{queue.name}</div>
         </Link>
       ))}
       <input type="text" name={name} onChange={onNameChange} />
