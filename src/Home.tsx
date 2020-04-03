@@ -1,11 +1,23 @@
 import { Link, RouteComponentProps } from "@reach/router";
-import React from "react";
+import React, { ChangeEvent, useState } from "react";
 import { GoogleLoginButton } from "react-social-login-buttons";
-import { login, useAuth, useQueues } from "./firebase";
+import { createQueue, login, useAuth, useQueues } from "./firebase";
 
 export const Home: React.FC<RouteComponentProps> = () => {
   const user = useAuth();
   const queues = useQueues();
+  const [name, setName] = useState("");
+
+  const onNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
+  };
+  const onCreateQueue = async () => {
+    if (!name) {
+      return;
+    }
+    await createQueue(name);
+    setName("");
+  };
 
   if (!user) {
     return (
@@ -22,6 +34,8 @@ export const Home: React.FC<RouteComponentProps> = () => {
           <div>{queue.name}</div>
         </Link>
       ))}
+      <input type="text" name={name} onChange={onNameChange} />
+      <button onClick={onCreateQueue}>Create new queue</button>
     </div>
   );
 };
