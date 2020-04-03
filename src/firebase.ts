@@ -55,6 +55,13 @@ export const joinQueue = async (id: string, user: firebase.User) => {
   });
 };
 
+export const leaveQueue = async (queueId: string, userId: string) => {
+  return firebase
+    .firestore()
+    .doc(`queues/${queueId}/members/${userId}`)
+    .delete();
+};
+
 export const useQueues = () => {
   const [queues, setQueues] = useState<IQueue[]>([]);
 

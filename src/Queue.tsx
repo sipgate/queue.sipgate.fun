@@ -1,7 +1,14 @@
 import { RouteComponentProps } from "@reach/router";
 import React from "react";
 import Avatar from "react-avatar";
-import { joinQueue, useAuth, useMembers, useQueue } from "./firebase";
+import {
+  joinQueue,
+  leaveQueue,
+  useAuth,
+  useMembers,
+  useQueue
+} from "./firebase";
+import { IMember } from "./models";
 
 interface Props extends RouteComponentProps {
   queueId?: string;
@@ -21,12 +28,20 @@ export const Queue: React.FC<Props> = ({ queueId }) => {
     joinQueue(queue?.id, user);
   };
 
+  const onLeaveQueue = (member: IMember) => () => {
+    leaveQueue(queue?.id, member.id);
+  };
+
   return (
     <div>
       <div onClick={onJoinQueue}>{queue?.name}</div>
       <span>
         {members.map(member => (
-          <Avatar name={member.name} src={member.avatar} />
+          <Avatar
+            onClick={onLeaveQueue(member)}
+            name={member.name}
+            src={member.avatar}
+          />
         ))}
       </span>
     </div>
