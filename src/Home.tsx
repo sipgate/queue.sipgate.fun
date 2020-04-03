@@ -1,12 +1,9 @@
-import { Router } from "@reach/router";
+import { Link, RouteComponentProps } from "@reach/router";
 import React from "react";
 import { GoogleLoginButton } from "react-social-login-buttons";
-import "./App.css";
 import { login, useAuth, useQueues } from "./firebase";
-import { Home } from "./Home";
-import { Queue } from "./Queue";
 
-function App() {
+export const Home: React.FC<RouteComponentProps> = () => {
   const user = useAuth();
   const queues = useQueues();
 
@@ -19,14 +16,12 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <h1>Queues</h1>
-      <Router>
-        <Home path="/" />
-        <Queue path={`/queues/:queueId`} />
-      </Router>
+    <div>
+      {queues.map(queue => (
+        <Link to={`/queues/${queue.id}`}>
+          <div>{queue.name}</div>
+        </Link>
+      ))}
     </div>
   );
-}
-
-export default App;
+};

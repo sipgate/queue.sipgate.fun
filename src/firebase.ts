@@ -2,7 +2,7 @@ import { auth } from "firebase";
 import firebase from "firebase/app";
 import "firebase/auth";
 import { useEffect, useState } from "react";
-import { Queue } from "./models";
+import { IMember, IQueue } from "./models";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBKE0OJI23qN56KzB7BRTDkjdA-AUX6bcc",
@@ -56,7 +56,7 @@ export const joinQueue = async (id: string, user: firebase.User) => {
 };
 
 export const useQueues = () => {
-  const [queues, setQueues] = useState<Queue[]>([]);
+  const [queues, setQueues] = useState<IQueue[]>([]);
 
   useEffect(() => {
     firebase
@@ -66,11 +66,54 @@ export const useQueues = () => {
         setQueues(
           docs.map(d => ({
             id: d.id,
-            ...(d.data() as Queue)
+            ...(d.data() as IQueue)
           }))
         )
       );
   }, []);
 
   return queues;
+};
+
+export const useQueue = (queueId?: string) => {
+  const [queue, setQueue] = useState<IQueue>();
+
+  useEffect(() => {
+    if (!queueId) {
+      setQueue(undefined);
+      return;
+    }
+
+    firebase
+      .firestore()
+      .doc(`queues/${queueId}`)
+      .onSnapshot(doc =>
+        setQueue({
+          id: doc.id,
+          ...(doc.data() as IQueue)
+        })
+      );
+  }, [queueId]);
+
+  return queue;
+};
+
+export const useMembers = (queueId?: string) => {
+  const [members, setMembers] = useState<IMember[]>([]);
+
+  useEffect(() => {
+    firebase
+      .firestore()
+      .collection(`queues/${queueId}/members`)
+      .onSnapshot(({ docs }) =>
+        setMembers(
+          docs.map(d => ({
+            id: d.id,
+            ...(d.data() as IMember)
+          }))
+        )
+      );
+  }, [queueId]);
+
+  return members;
 };
