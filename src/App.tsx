@@ -2,13 +2,12 @@ import { Router } from "@reach/router";
 import React from "react";
 import { GoogleLoginButton } from "react-social-login-buttons";
 import "./App.css";
-import { login, useAuth, useQueues } from "./firebase";
+import { login, useAuth } from "./firebase";
 import { Home } from "./Home";
 import { Queue } from "./Queue";
 
 function App() {
   const user = useAuth();
-  const queues = useQueues();
 
   if (!user) {
     return (
