@@ -32,12 +32,19 @@ export const Home: React.FC<RouteComponentProps> = () => {
     <div>
       <h1>Queues</h1>
       {queues.map(queue => (
-        <Link to={`/queues/${queue.id}`}>
+        <Link key={queue.id} to={`/queues/${queue.id}`}>
           <div className={styles.name}>{queue.name}</div>
         </Link>
       ))}
-      <input type="text" name={name} onChange={onNameChange} />
-      <button onClick={onCreateQueue}>Create new queue</button>
+      <input
+        type="text"
+        name={name}
+        onChange={onNameChange}
+        placeholder="Queue Name"
+      />
+      <button onClick={onCreateQueue} disabled={!name}>
+        Create new queue
+      </button>
     </div>
   );
 };

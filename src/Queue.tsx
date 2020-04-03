@@ -38,21 +38,23 @@ export const Queue: React.FC<Props> = ({ queueId }) => {
     <div>
       <h1 className={styles.headline}>{queue?.name}</h1>
       {members.map(member => (
-        <div className={styles.member}>
+        <div key={member.id} className={styles.member}>
           <Avatar
             size="40"
-            onClick={onLeaveQueue(member)}
             name={member.name}
             src={member.avatar}
             round
             className={styles.avatar}
           />
           <span className={styles.name}>{member.name}</span>
-          <FaRegTrashAlt onClick={onJoinQueue} className={styles.kick} />
+          <FaRegTrashAlt
+            onClick={onLeaveQueue(member)}
+            className={styles.kick}
+          />
         </div>
       ))}
       <div>
-        <button onClick={onJoinQueue}>Join Queue</button>
+        <button onClick={onJoinQueue}>Join</button>
       </div>
     </div>
   );
