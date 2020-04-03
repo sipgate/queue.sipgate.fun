@@ -1,11 +1,20 @@
 import React from "react";
 import { GoogleLoginButton } from "react-social-login-buttons";
 import "./App.css";
-import { login, useAuth, useQueues } from "./firebase";
+import { joinQueue, login, useAuth, useQueues } from "./firebase";
+import { Queue } from "./models";
 
 function App() {
   const user = useAuth();
   const queues = useQueues();
+
+  const onJoinQueue = (queue: Queue) => () => {
+    if (!user) {
+      return;
+    }
+
+    joinQueue(queue.id, user);
+  };
 
   if (!user) {
     return (
@@ -19,7 +28,7 @@ function App() {
     <div className="App">
       <h1>Queues</h1>
       {queues.map(queue => (
-        <div>{queue.name}</div>
+        <div onClick={onJoinQueue(queue)}>{queue.name}</div>
       ))}
     </div>
   );

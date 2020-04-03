@@ -47,6 +47,14 @@ export const createQueue = async (name: string) => {
   });
 };
 
+export const joinQueue = async (id: string, user: firebase.User) => {
+  return firebase.firestore().doc(`queues/${id}/members/${user.uid}`).set({
+    id: user.uid,
+    name: user.displayName,
+    avatar: user.photoURL
+  });
+};
+
 export const useQueues = () => {
   const [queues, setQueues] = useState<Queue[]>([]);
 
